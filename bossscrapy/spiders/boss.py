@@ -1,7 +1,8 @@
 import scrapy
 from scrapy import Selector
 from scrapy.http import HtmlResponse
-from mySpider.items import BossItem
+from bossscrapy.items import BossItem
+
 
 class BossSpider(scrapy.Spider):
     name = "boss"
@@ -10,9 +11,12 @@ class BossSpider(scrapy.Spider):
 
     def parse(self, response: HtmlResponse):
         sel = Selector(response)
-        jobs_list = sel.css('#wrap > div.job-recommend-main > div.job-recommend-result > div > div > div.job-list-container > ul > li')
+        jobs_list = sel.css(
+            '#wrap > div.job-recommend-main > div.job-recommend-result > div > div > div.job-list-container > ul > li')
         for job in jobs_list:
             boss_item = BossItem()
             boss_item['name'] = job.css('a.job-name::text')
         yield boss_item
+
+
 0

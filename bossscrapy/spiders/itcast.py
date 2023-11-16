@@ -1,5 +1,5 @@
 import scrapy
-from mySpider.items import ItcastItem
+from bossscrapy.items import ItcastItem
 
 
 class ItcastSpider(scrapy.Spider):

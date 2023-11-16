@@ -2,7 +2,7 @@ import scrapy
 from scrapy import Selector, Request
 from scrapy.http import HtmlResponse
 
-from mySpider.items import MovieItem
+from bossscrapy.items import MovieItem
 
 
 class DoubanSpider(scrapy.Spider):
