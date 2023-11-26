@@ -1,15 +1,7 @@
-# Define here the models for your spider middleware
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
 from scrapy import signals
 
-# useful for handling different item types with a single interface
-from itemadapter import is_item, ItemAdapter
 
-
-class BossscrapySpiderMiddleware:
+class MyspiderSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.
@@ -56,7 +48,7 @@ class BossscrapySpiderMiddleware:
         spider.logger.info("Spider opened: %s" % spider.name)
 
 
-class BossscrapyDownloaderMiddleware:
+class MyspiderDownloaderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
@@ -101,3 +93,28 @@ class BossscrapyDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
+
+
+class IPProxyMiddleware(object):
+    """
+    代理IP中间件
+    """
+
+    @staticmethod
+    def fetch_proxy():
+        """
+        获取一个代理IP
+        """
+        # You need to rewrite this function if you want to add proxy pool
+        # the function should return an ip in the format of "ip:port" like "12.34.1.4:9090"
+        return None
+
+    def process_request(self, request, spider):
+        """
+        将代理IP添加到request请求中
+        """
+        proxy_data = self.fetch_proxy()
+        if proxy_data:
+            current_proxy = f'http://{proxy_data}'
+            spider.logger.debug(f"current proxy:{current_proxy}")
+            request.meta['proxy'] = current_proxy
